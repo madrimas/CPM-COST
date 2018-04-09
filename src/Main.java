@@ -8,6 +8,7 @@ public class Main {
 
         GlobalData globalData = GlobalData.getInstance();
         int numberOfActions = globalData.getNumberOfActions();
+        List<Integer> idList = globalData.getIdList();
         List<Integer> eventStartList = globalData.getEventStartList();
         List<Integer> eventEndList = globalData.getEventEndList();
         List<Double> defaultTimeList = globalData.getDefaultTimeList();
@@ -15,7 +16,8 @@ public class Main {
         List<Double> defaultCostList = globalData.getDefaultCostList();
         List<Double> reductionCostList = globalData.getReductionCostList();
 
-        for(int i=0;i<numberOfActions;i++){
+        for (int i = 0; i < numberOfActions; i++) {
+            System.out.println("ID czynności: " + idList.get(i));
             System.out.println("Początek czynności w zdarzeniu nr: " + eventStartList.get(i));
             System.out.println("Koniec czynności w zdarzeniu nr: " + eventEndList.get(i));
             System.out.println("Domyślny czas trwania: " + defaultTimeList.get(i));

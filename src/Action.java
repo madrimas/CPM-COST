@@ -1,4 +1,5 @@
 public class Action {
+    private int id; //id czynności
     private int eventStart; //numer zdarzenia
     private int eventEnd; //numer zdarzenia
     private double tn; //czas domyślny
@@ -6,13 +7,18 @@ public class Action {
     private double kn; //koszt domyślny
     private double kgr; //koszt skrócenia
 
-    Action(int eventStart, int eventEnd, double tn, double tgr, double kn, double kgr) {
+    Action(int id, int eventStart, int eventEnd, double tn, double tgr, double kn, double kgr) {
+        this.id = id;
         this.eventStart = eventStart;
         this.eventEnd = eventEnd;
         this.tn = tn;
         this.tgr = tgr;
         this.kn = kn;
         this.kgr = kgr;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public int getEventStart() {
@@ -37,6 +43,10 @@ public class Action {
 
     public double getKgr() {
         return kgr;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setEventStart(int eventStart) {

@@ -9,6 +9,7 @@ public class GlobalData {
     static private GlobalData globalData;
 
     private int numberOfActions;
+    private List<Integer> idList;
     private List<Integer> eventStartList;
     private List<Integer> eventEndList;
     private List<Double> defaultTimeList;
@@ -39,8 +40,9 @@ public class GlobalData {
             }
         }
 
-        this.numberOfActions = counter / 6;
+        this.numberOfActions = counter / 7;
 
+        this.idList = new ArrayList<>();
         this.eventStartList = new ArrayList<>();
         this.eventEndList = new ArrayList<>();
         this.defaultTimeList = new ArrayList<>();
@@ -49,14 +51,19 @@ public class GlobalData {
         this.reductionCostList = new ArrayList<>();
 
         for (int i = 0; i < numberOfActions; i++) {
-            eventStartList.add(fileList.get(6*i).intValue());
-            eventEndList.add(fileList.get(6*i + 1).intValue());
-            defaultTimeList.add(fileList.get(6*i + 2));
-            afterTimeReductionList.add(fileList.get(6*i + 3));
-            defaultCostList.add(fileList.get(6*i + 4));
-            reductionCostList.add(fileList.get(6*i + 5));
+            idList.add(fileList.get(7 * i).intValue());
+            eventStartList.add(fileList.get(7 * i + 1).intValue());
+            eventEndList.add(fileList.get(7 * i + 2).intValue());
+            defaultTimeList.add(fileList.get(7 * i + 3));
+            afterTimeReductionList.add(fileList.get(7 * i + 4));
+            defaultCostList.add(fileList.get(7 * i + 5));
+            reductionCostList.add(fileList.get(7 * i + 6));
         }
 
+    }
+
+    public List<Integer> getIdList() {
+        return idList;
     }
 
     public int getNumberOfActions() {

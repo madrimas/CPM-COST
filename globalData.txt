@@ -1,33 +1,39 @@
-1
+1	//id
+1	//eventStart
+2	//eventEnd
+8	//defaultTime
+8	//afterReductionTime
+220	//defaultCost
+280	//reductionCost
 2
-8
-8
-220
-280
 1
 4
 10
 5
 100
 150
+3
 2
 3
 6
 4
 300
 400
+4
 3
 6
 12
 10
 260
 300
+5
 4
 5
 15
 15
 150
 150
+6
 5
 6
 10
