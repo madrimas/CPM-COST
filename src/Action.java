@@ -6,6 +6,7 @@ public class Action {
     private double tgr; //czas po skróceniu
     private double kn; //koszt domyślny
     private double kgr; //koszt skrócenia
+    private boolean isChecked;
 
     Action(int id, int eventStart, int eventEnd, double tn, double tgr, double kn, double kgr) {
         this.id = id;
@@ -15,6 +16,7 @@ public class Action {
         this.tgr = tgr;
         this.kn = kn;
         this.kgr = kgr;
+        this.isChecked = false;
     }
 
     public int getId() {
@@ -45,6 +47,10 @@ public class Action {
         return kgr;
     }
 
+    public boolean isChecked() {
+        return isChecked;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -71,5 +77,9 @@ public class Action {
 
     public void setKgr(double kgr) {
         this.kgr = kgr;
+    }
+
+    public void setChecked(boolean checked) {
+        isChecked = checked;
     }
 }
