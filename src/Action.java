@@ -1,4 +1,6 @@
-public class Action {
+import java.util.Comparator;
+
+public class Action implements Comparable<Action>{
     private int id; //id czynności
     private int eventStart; //numer zdarzenia
     private int eventEnd; //numer zdarzenia
@@ -18,6 +20,21 @@ public class Action {
         this.kgr = kgr;
         this.isChecked = false;
     }
+
+    @Override
+    public int compareTo(Action o){
+        return Comparators.TIME.compare(this, o);
+    }
+
+    public static class Comparators{
+        public static Comparator<Action> TIME = new Comparator<Action>() {
+            @Override
+            public int compare(Action o1, Action o2) {
+                return Double.compare(o1.tn, o2.tn);
+            }
+        };
+    }
+
 
     public int getId() {
         return id;

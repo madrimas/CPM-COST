@@ -3,12 +3,14 @@ import java.util.List;
 
 public class Event {
 
-    private static int eventID = 0;
+    private static int eventCounterID = 0;
+    private int eventID;
     private List<Integer> ingoingActionList;
     private List<Integer> outgoingActionList;
 
     Event(){
-        eventID++;
+        eventCounterID++;
+        eventID = eventCounterID;
         ingoingActionList = new ArrayList<>();
         outgoingActionList = new ArrayList<>();
     }
@@ -35,5 +37,13 @@ public class Event {
 
     public void setOutgoingActionList(List<Integer> outgoingActionList) {
         this.outgoingActionList = outgoingActionList;
+    }
+
+    public static int getEventCounterID() {
+        return eventCounterID;
+    }
+
+    public static void setEventCounterID(int eventCounterID) {
+        Event.eventCounterID = eventCounterID;
     }
 }

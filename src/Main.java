@@ -1,5 +1,7 @@
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class Main {
@@ -48,27 +50,90 @@ public class Main {
             }
         }
 
+        System.out.println("EVENTID" + eventList.get(0).getEventID());
+
         for (int i = 0; i < numberOfActions; i++) {
             for (Integer object : eventList.get(i).getOutgoingActionList()
                     ) {
-                System.out.println("Czynności wychodzące ze zdarzenia: " + (i+1) + " to: " + object);
+                System.out.println("Czynności wychodzące ze zdarzenia: " + (i + 1) + " to: " + object);
             }
             for (Integer object : eventList.get(i).getIngoingActionList()
                     ) {
                 //System.out.println("Czynności wchodzące do zdarzenia: " + (i+1) + " to: " + object);
             }
         }
-        int counter = 0;
-        while(!allChecked){
-            allChecked = true;
-            for(int i=0;i<numberOfActions;i++){
-                if(!actionList.get(i).isChecked())
+        int eventCounter = 0;
+        int actionCounter = 0;
+        while (!allChecked) {
+            List<Action> actionPathList = new ArrayList<>();
+            int length = 0;
+            while (eventCounter != 5) {
+                allChecked = true;
+
+                List<Integer> allOutList = eventList.get(eventCounter).getOutgoingActionList();
+                List<Integer> tempOutList = new ArrayList<>();
+
+                for (int i = 0; i < allOutList.size(); i++) {
+                    if (!actionList.get((allOutList.get(i) - 1)).isChecked())
+                        tempOutList.add(allOutList.get(i));
+                }
+
+
+                List<Action> tempActionList = new ArrayList<>();
+                for (Integer aTempOutList : tempOutList) {
+                    tempActionList.add(actionList.get(aTempOutList - 1));
+                }
+                tempActionList.sort(Action.Comparators.TIME);
+                Collections.reverse(tempActionList);
+
+                actionCounter = tempActionList.get(0).getId();
+                actionPathList.add(actionList.get(actionCounter - 1));
+                length += tempActionList.get(0).getTn();
+                System.out.println("PathTime: " + length);
+
+
+                //if (tempOutList.size() == 1)
+                actionList.get(actionCounter - 1).setChecked(true);
+                //else
+                //    actionList.get(actionCounter-1).setChecked(false);
+
+                for (Action object : tempActionList
+                        ) {
+                    System.out.println(object.getTn());
+
+                }
+                eventCounter = tempActionList.get(0).getEventEnd() - 1;
+                System.out.println(eventList.get(eventCounter).getEventID());
+
+            }
+            pathList.add(new Path(length, actionPathList));
+            eventCounter = 0;
+            actionList.get(actionList.size() - 1).setChecked(true);
+            for (int i = 0; i < numberOfActions; i++) {
+                if (!actionList.get(i).isChecked())
                     allChecked = false;
             }
-            pathList.add(new Path());
-            pathList.get(counter).
         }
 
+        double criticalPathLength = 0;
+        double secondPathLength = 0;
+
+        System.out.println(pathList.size());
+        System.out.println();
+        for (Path path : pathList
+                ) {
+            for (int i = 0; i < path.actionInPathList.size(); i++) {
+                System.out.println(path.actionInPathList.get(i).getId());
+            }
+            if(path.getLength() > criticalPathLength)
+                criticalPathLength = path.getLength();
+            else if(path.getLength() > secondPathLength)
+                secondPathLength = path.getLength();
+            System.out.println();
+        }
+
+        System.out.println(criticalPathLength);
+        System.out.println(secondPathLength);
 
 
     }

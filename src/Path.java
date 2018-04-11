@@ -11,6 +11,11 @@ public class Path {
         this.actionInPathList = new ArrayList<>();
     }
 
+    Path(int length, List<Action> actionInPathList){
+        this.length = length;
+        this.actionInPathList = actionInPathList;
+    }
+
     public double getLength() {
         return length;
     }
@@ -23,7 +28,7 @@ public class Path {
         return actionInPathList;
     }
 
-    public void setActionInPathList(List<Action> actionInPathList) {
-        this.actionInPathList = actionInPathList;
+    public void addActionInPathList(Action action) {
+        this.actionInPathList.add(action);
     }
 }
