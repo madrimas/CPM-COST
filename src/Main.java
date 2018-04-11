@@ -1,8 +1,5 @@
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -50,12 +47,12 @@ public class Main {
             }
         }
 
-        System.out.println("EVENTID" + eventList.get(0).getEventID());
+        //System.out.println("EVENTID" + eventList.get(0).getEventID());
 
         for (int i = 0; i < numberOfActions; i++) {
             for (Integer object : eventList.get(i).getOutgoingActionList()
                     ) {
-                System.out.println("Czynności wychodzące ze zdarzenia: " + (i + 1) + " to: " + object);
+                //System.out.println("Czynności wychodzące ze zdarzenia: " + (i + 1) + " to: " + object);
             }
             for (Integer object : eventList.get(i).getIngoingActionList()
                     ) {
@@ -67,7 +64,7 @@ public class Main {
         while (!allChecked) {
             List<Action> actionPathList = new ArrayList<>();
             int length = 0;
-            while (eventCounter != 5) {
+            while (eventCounter != (eventList.size()-1)) {
                 allChecked = true;
 
                 List<Integer> allOutList = eventList.get(eventCounter).getOutgoingActionList();
@@ -89,7 +86,7 @@ public class Main {
                 actionCounter = tempActionList.get(0).getId();
                 actionPathList.add(actionList.get(actionCounter - 1));
                 length += tempActionList.get(0).getTn();
-                System.out.println("PathTime: " + length);
+                //System.out.println("PathTime: " + length);
 
 
                 //if (tempOutList.size() == 1)
@@ -99,15 +96,23 @@ public class Main {
 
                 for (Action object : tempActionList
                         ) {
-                    System.out.println(object.getTn());
+                    //System.out.println(object.getTn());
 
                 }
                 eventCounter = tempActionList.get(0).getEventEnd() - 1;
-                System.out.println(eventList.get(eventCounter).getEventID());
+                //System.out.println(eventList.get(eventCounter).getEventID());
 
             }
             pathList.add(new Path(length, actionPathList));
-            eventCounter = 0;
+            for(int i=0;i<actionList.size();i++){
+                boolean test = actionList.get(i).isChecked();
+                //System.out.println(test);
+                if(!test){
+                    eventCounter = i;
+                    break;
+                }
+            }
+            //eventCounter = 0;
             actionList.get(actionList.size() - 1).setChecked(true);
             for (int i = 0; i < numberOfActions; i++) {
                 if (!actionList.get(i).isChecked())
@@ -116,25 +121,53 @@ public class Main {
         }
 
         double criticalPathLength = 0;
+        int criticalPathID = 0;
         double secondPathLength = 0;
 
-        System.out.println(pathList.size());
-        System.out.println();
+        //System.out.println(pathList.size());
         for (Path path : pathList
                 ) {
             for (int i = 0; i < path.actionInPathList.size(); i++) {
-                System.out.println(path.actionInPathList.get(i).getId());
+                //System.out.println(path.actionInPathList.get(i).getId());
             }
-            if(path.getLength() > criticalPathLength)
+            if (path.getLength() > criticalPathLength) {
                 criticalPathLength = path.getLength();
-            else if(path.getLength() > secondPathLength)
+                criticalPathID = path.getID();
+            } else if (path.getLength() > secondPathLength)
                 secondPathLength = path.getLength();
-            System.out.println();
+            //System.out.println();
+        }
+        System.out.println("Długość ścieżki krytycznej: " + criticalPathLength);
+        System.out.println("Scieżka krytyczna akcji:");
+        for (int i = 0; i < pathList.get(criticalPathID).actionInPathList.size(); i++) {
+            System.out.println(pathList.get(criticalPathID).actionInPathList.get(i).getId());
+            pathList.get(criticalPathID).setLength(pathList.get(criticalPathID).getLength()-(
+                    actionList.get(pathList.get(criticalPathID).actionInPathList.get(i).getId()-1).getTn()-
+                            actionList.get(pathList.get(criticalPathID).actionInPathList.get(i).getId()-1).getTgr()
+                    ));
         }
 
-        System.out.println(criticalPathLength);
-        System.out.println(secondPathLength);
+        criticalPathLength = pathList.get(criticalPathID).getLength();
 
+
+        //System.out.println(criticalPathID);
+        //System.out.println(secondPathLength);
+
+        double k = 0;
+        double kp = 0;
+        double kpc = 0;
+
+        //while (criticalPathLength >= secondPathLength) {
+            for (int i = 0; i < actionList.size(); i++) {
+                if (actionList.get(i).getTn() - actionList.get(i).getTgr() != 0) {
+                    k = (actionList.get(i).getKgr()-actionList.get(i).getKn())/(actionList.get(i).getTn()-actionList.get(i).getTgr());
+                }
+                kp = k * (actionList.get(i).getTn()-actionList.get(i).getTgr());
+                kpc += kp;
+            }
+        //}
+        System.out.println("Koszt: " + kpc);
+        System.out.println("Długość ścieżki krytycznej po skróceniu: " + criticalPathLength);
 
     }
 }

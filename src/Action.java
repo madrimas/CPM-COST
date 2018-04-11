@@ -7,7 +7,7 @@ public class Action implements Comparable<Action>{
     private double tn; //czas domyślny
     private double tgr; //czas po skróceniu
     private double kn; //koszt domyślny
-    private double kgr; //koszt skrócenia
+    private double kgr; //koszt po skróceniu
     private boolean isChecked;
 
     Action(int id, int eventStart, int eventEnd, double tn, double tgr, double kn, double kgr) {
